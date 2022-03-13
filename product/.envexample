@@ -1,0 +1,12 @@
+PORT=5002
+
+#Database
+DB_TYPE=postgres
+DB_URL=postgres://postgres:root@product_db/product
+
+#Jwt
+JWT_USER_SECRET_KEY=key
+JWT_SERVICE_SECRET_KEY=key
+
+#Microservices
+AUTH_SERVICE_PATH=http://user:5001/user

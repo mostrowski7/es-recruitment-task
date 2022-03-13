@@ -1,0 +1,9 @@
+PORT=5001
+
+#Database
+DB_TYPE=postgres
+DB_URL=postgres://postgres:root@user_db/user
+
+#Jwt
+JWT_USER_SECRET_KEY=key
+JWT_SERVICE_SECRET_KEY=key

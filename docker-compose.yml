@@ -1,0 +1,80 @@
+version: "3.7"
+services:
+  user_db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_DB: $POSTGRES_DB_USER
+    volumes:
+      - ./pgdata:/var/lib/postgresql/user
+    ports:
+      - '5433:5432' 
+  product_db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_DB: $POSTGRES_DB_PRODUCT
+    volumes:
+      - ./pgdata:/var/lib/postgresql/product
+    ports:
+      - '5434:5432' 
+  basket_db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_DB: $POSTGRES_DB_BASKET
+    volumes:
+      - ./pgdata:/var/lib/postgresql/basket
+    ports:
+      - '5435:5432'
+  order_db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_DB: $POSTGRES_DB_ORDER
+    volumes:
+      - ./pgdata:/var/lib/postgresql/order
+    ports:
+      - '5436:5432' 
+
+  user:
+    build: ./user
+    depends_on:
+      - user_db
+    ports:
+      - "5001:5001"
+  product:
+    build: ./product
+    depends_on:
+      - product_db
+    ports:
+      - "5002:5002"
+  basket:
+    build: ./basket
+    depends_on:
+      - basket_db
+    ports:
+      - "5003:5003"
+  order:
+    build: ./order
+    depends_on:
+      - order_db
+    ports:
+      - "5004:5004"
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - user
+      - product
+      - basket
+      - order
+  

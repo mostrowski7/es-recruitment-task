@@ -1,0 +1,146 @@
+/basket/add:
+  post:
+    security:
+    - bearerAuth: []
+    summary: "Add new basket"
+    tags:
+    - "Basket"
+    produces:
+    - "application/json"
+    responses:
+      "200":
+        description: "Return status"
+        schema:
+          $ref: "#/definitions/AddBasketResponse"
+      "401":
+        description: "Permission denied"
+      "409":
+        description: "Basket already exists"
+      "500":
+        description: "Internal server error"
+/basket/addProduct:
+  post:
+    security:
+    - bearerAuth: []
+    summary: "Add product to basket"
+    tags:
+    - "Basket"
+    consumes:
+    - "application/json"
+    produces:
+    - "application/json"
+    parameters:
+    - in: "body"
+      name: "body"
+      description: "Product data"
+      schema:
+        $ref: "#/definitions/AddProductDto"
+    responses:
+      "200":
+        description: "Return status"
+      "400":
+        description: "Invalid data"
+      "401":
+        description: "Permission denied"
+      "404":
+        description: "Basket not found / Product is not assigned to basket"
+      "409":
+        description: "Product run out"
+      "500":
+        description: "Internal server error"
+/basket/{id}/get:
+  get:
+    security:
+      - bearerAuth: []
+    summary: "Get basket by id"
+    tags:
+    - "Basket"
+    consumes:
+    - "application/json"
+    parameters:
+      - in: "path"
+        name: "id"
+        description: "Basket id"
+        required: true
+    responses:
+      "200":
+        description: "Return basket data"
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/GetBasketResponse"
+      "400":
+        description: "Invalid data"
+      "401":
+        description: "Permission denied"
+      "404":
+        description: "Basket not found"
+      "500":
+        description: "Internal server error"
+
+/basket/removeProduct/{id}/{amount}:
+  delete:
+    security:
+      - bearerAuth: []
+    summary: "Remove product amount"
+    tags:
+      - "Basket"
+    parameters:
+      - in: "path"
+        name: "id"
+        description: "Product id"
+        required: true
+      - in: "path"
+        name: "amount"
+        description: "Product amount"
+        required: true
+    responses:
+      "200":
+        description: "Return status"
+      "400":
+        description: "Invalid data"
+      "401":
+        description: "Permission denied"
+      "404":
+        description: "Product not found / Product is not assigned to basket"
+      "500":
+        description: "Internal server error"
+
+definitions:
+  AddProductDto:
+    type: "object"
+    properties:
+      productId:
+        type: "number"
+        example: 1
+        required: "true"
+      amount:
+        type: "number"
+        example: 1
+        required: "true"
+  GetBasketResponse:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+      products:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            id:
+              type: "string"
+              format: "uuid"
+            productId:
+              type: "number"
+              example: 1
+            amount:
+              type: "number"
+              example: 1
+  AddBasketResponse:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"

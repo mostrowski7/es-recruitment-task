@@ -1,0 +1,198 @@
+/product/add:
+  post:
+    security:
+    - bearerAuth: []
+    summary: "Add new product"
+    tags:
+    - "Product"
+    consumes:
+    - "application/json"
+    produces:
+    - "application/json"
+    parameters:
+    - in: "body"
+      name: "body"
+      description: "Product data"
+      required: "true"
+      schema:
+        $ref: "#/definitions/ProductDto"
+    responses:
+      "200":
+        description: "Return product data"
+        schema:
+            $ref: "#/definitions/ProductResponse"
+      "400":
+        description: "Invalid data"
+      "401":
+        description: "Permission denied"
+      "500":
+        description: "Internal server error"
+/product/{id}/get:
+  get:
+    security:
+    - bearerAuth: []
+    summary: "Get product by id"
+    tags:
+    - "Product"
+    consumes:
+    - "application/json"
+    produces:
+    - "application/json"
+    parameters:
+    - in: "path"
+      name: "id"
+      description: "product id"
+      schema:
+        type: "number"
+    responses:
+      "200":
+        description: "Return products data"
+        schema:
+          $ref: "#/definitions/ProductResponse"
+      "400":
+        description: "Invalid data"
+      "401":
+        description: "Permission denied"
+      "500":
+        description: "Internal server error"
+/product/get:
+  get:
+    security:
+    - bearerAuth: []
+    summary: "Get all products"
+    tags:
+    - "Product"
+    produces:
+    - "application/json"
+    responses:
+      "200":
+        description: "Return products data"
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/ProductResponse"
+      "400":
+        description: "Invalid data"
+      "401":
+        description: "Permission denied"
+      "500":
+        description: "Internal server error"
+
+/product/{id}/delete:
+  delete:
+    security:
+    - bearerAuth: []
+    summary: "Delete product"
+    tags:
+    - "Product"
+    produces:
+    - "application/json"
+    parameters:
+    - in: "path"
+      name: "id"
+      description: "Product id"
+      schema:
+        type: "string"
+        format: "uuid"
+    responses:
+      "200":
+        description: "Return status"
+      "400":
+        description: "Invalid data"
+      "401":
+        description: "Permission denied"
+      "404":
+        description: "Product not found"
+      "500":
+        description: "Internal server error"
+/product/update:
+  put:
+    security:
+    - bearerAuth: []
+    summary: "Edit product"
+    tags:
+    - "Product"
+    consumes:
+    - "application/json"
+    produces:
+    - "application/json"
+    parameters:
+    - in: "body"
+      name: "body"
+      description: "Product data"
+      schema:
+        $ref: "#/definitions/UpdateProductDto"
+    responses:
+      "200":
+        description: "Return product data"
+        schema:
+          $ref: "#/definitions/ProductResponse"
+      "400":
+        description: "Invalid data"
+      "401":
+        description: "No authorization token was found"
+      "404":
+        description: "User not found"
+      "500":
+        description: "Internal server error"
+definitions:
+  ProductDto:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "product"
+        required: "true"
+      serialNumber:
+        type: "number"
+        example: 1
+        required: "true"
+      price:
+        type: "float"
+        example: 2.50
+        required: "true"
+      amount:
+        type: "number"
+        example: 1
+        required: "true"
+  UpdateProductDto:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+        example: 1
+        required: "true"
+      name:
+        type: "string"
+        example: "product"
+        required: "true"
+      serialNumber:
+        type: "number"
+        example: 1
+        required: "true"
+      price:
+        type: "float"
+        example: 2.50
+        required: "true"
+      amount:
+        type: "number"
+        example: 1
+        required: "true"
+  ProductResponse:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+        example: 1
+      name:
+        type: "string"
+        example: "product"
+      serialNumber:
+        type: "number"
+        example: 1
+      price:
+        type: "string"
+        example: "2.50"
+      amount:
+        type: "number"
+        example: 1

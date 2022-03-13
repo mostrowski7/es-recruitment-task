@@ -1,0 +1,13 @@
+PORT=5003
+
+#Database
+DB_TYPE=postgres
+DB_URL=postgres://postgres:root@basket_db/basket
+
+#Jwt
+JWT_USER_SECRET_KEY=key
+JWT_SERVICE_SECRET_KEY=key
+
+#Microservices
+AUTH_SERVICE_PATH=http://user:5001/user
+PRODUCT_SERVICE_PATH=http://product:5002/product

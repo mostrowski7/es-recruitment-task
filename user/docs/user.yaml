@@ -1,0 +1,109 @@
+/user/register:
+  post:
+    summary: "Create user"
+    tags:
+    - "User"
+    consumes:
+    - "application/json"
+    produces:
+    - "application/json"
+    parameters:
+    - in: "body"
+      name: "body"
+      description: "User data"
+      required: "true"
+      schema:
+        $ref: "#/definitions/RegisterDto"
+    responses:
+      "200":
+        description: "Return user data"
+        schema:
+          $ref: "#/definitions/RegisterResponse"
+      "400":
+        description: "Invalid data"
+      "409":
+        description: "User already exists"
+      "500":
+        description: "Internal server error"
+/user/login:
+  post:
+    summary: "Login user"
+    tags:
+    - "User"
+    consumes:
+    - "application/json"
+    produces:
+    - "application/json"
+    parameters:
+    - in: "body"
+      name: "body"
+      description: "User data"
+      required: "true"
+      schema:
+        $ref: "#/definitions/LoginDto"
+    responses:
+      "200":
+        description: "Return user data"
+        schema:
+          $ref: "#/definitions/LoginResponse"
+      "400":
+        description: "Invalid data"
+      "409":
+        description: "User already exists"
+      "500":
+        description: "Internal server error"
+/user/logout:
+  delete:
+    security:
+    - bearerAuth: []
+    summary: "Logout user"
+    tags:
+    - "User"
+    responses:
+      "200":
+        description: "Return status"
+      "401":
+        description: "Invalid token"
+      "500":
+        description: "Internal server error"
+definitions:
+  RegisterDto:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+        example: "username"
+        required: "true"
+      password:
+        type: "string"
+        example: "password"
+        required: "true"
+  RegisterResponse:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+      username:
+        type: "string"
+        example: "username"
+      role:
+        type: "string"
+        example: "USER"
+  LoginDto:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+        example: "username"
+        required: "true"
+      password:
+        type: "string"
+        example: "password"
+        required: "true"
+  LoginResponse:
+    type: "object"
+    properties:
+      accessToken:
+        type: "string"
+        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyZGYyY2JhLTVjMjItNGZhMi1iMDljLTIwODEyOTU1YzMyZCIsInVzZXJuYW1lIjoibWljaGFsMTIzNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY0NjU4MjU2MiwiZXhwIjoxNjQ2NTg2MTYyfQ.btmx4fQ_Ooe8CfhrmaeYdQb6U8o0-pJQ4M0Pq6mOOY4"

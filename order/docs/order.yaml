@@ -1,0 +1,173 @@
+/order/add:
+  post:
+    security:
+      - bearerAuth: []
+    summary: "Add new order"
+    tags:
+    - "Order"
+    consumes:
+    - "application/json"
+    produces:
+    - "application/json"
+    parameters:
+    - in: "body"
+      name: "body"
+      description: "Order data"
+      required: "true"
+      schema:
+        $ref: "#/definitions/CreateOrderDto"
+    responses:
+      "200":
+        description: "Return order data"
+        schema:
+          $ref: "#/definitions/OrderResponse"
+      "401":
+        description: "Permission denied"
+      "404":
+        description: "Basket not found / Product not found"
+      "500":
+        description: "Internal server error"
+/order/{id}/get:
+  get:
+    security:
+      - bearerAuth: []
+    summary: "Get order by id"
+    tags:
+    - "Order"
+    consumes:
+    - "application/json"
+    parameters:
+      - in: "path"
+        name: "id"
+        description: "Order id"
+        required: true
+    responses:
+      "200":
+        description: "Return order data"
+        schema:
+          $ref: "#/definitions/OrderResponse"
+      "400":
+        description: "Invalid data"
+      "401":
+        description: "Permission denied"
+      "404":
+        description: "Order not found"
+      "500":
+        description: "Internal server error"
+
+/order/get:
+  get:
+    security:
+      - bearerAuth: []
+    summary: "Get all user orders"
+    tags:
+    - "Order"
+    consumes:
+    - "application/json"
+    responses:
+      "200":
+        description: "Return order data"
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/OrderResponse"
+      "400":
+        description: "Invalid data"
+      "401":
+        description: "Permission denied"
+      "500":
+        description: "Internal server error"
+
+/order/{id}/delete:
+  delete:
+    security:
+      - bearerAuth: []
+    summary: "Delete order"
+    tags:
+      - "Order"
+    parameters:
+      - in: "path"
+        name: "id"
+        description: "Order id"
+        required: true
+    responses:
+      "200":
+        description: "Return status"
+      "400":
+        description: "Invalid data"
+      "401":
+        description: "Permission denied"
+      "404":
+        description: "Order not found"
+      "500":
+        description: "Internal server error"
+
+definitions:
+  CreateOrderDto:
+    type: "object"
+    properties:
+      basketId:
+        type: "string"
+        format: "uuid"
+        required: "true"
+      firstName:
+        type: "string"
+        example: "firstName"
+        required: "true"
+      lastName:
+        type: "string"
+        example: "lastName"
+        required: "true"
+      email:
+        type: "string"
+        example: "example@example.pl"
+        required: "true"
+      phoneNumber:
+        type: "string"
+        example: "+48500200300"
+        required: "true"
+      city:
+        type: "string"
+        example: "Warsaw"
+        required: "true"
+      postalCode:
+        type: "string"
+        example: "42-200"
+        required: "true"
+      street:
+        type: "string"
+        example: "street"
+        required: "true"
+  OrderResponse:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+      basketId:
+        type: "string"
+        format: "uuid"
+      userId:
+        type: "string"
+        format: "uuid"
+      firstName:
+        type: "string"
+        example: "firstName"
+      lastName:
+        type: "string"
+        example: "lastName"
+      email:
+        type: "string"
+        example: "example@example.pl"
+      phoneNumber:
+        type: "string"
+        example: "+48500200300"
+      city:
+        type: "string"
+        example: "Warsaw"
+      postalCode:
+        type: "string"
+        example: "42-200"
+      street:
+        type: "string"
+        example: "street"
