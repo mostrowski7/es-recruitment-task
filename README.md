@@ -6,7 +6,6 @@
 2. Rename .envexample to .env in each service
 3. Run docker-compose build
 4. Run docker-compose up -d
-5. Open docs
 
 ## DOCS
 
